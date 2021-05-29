@@ -1,5 +1,4 @@
 import java.awt.Color;
-import java.awt.Graphics;
 
 public class ColorfulBouncingCircle extends ColorfulCircle {
 	private double xVelocity, yVelocity;
@@ -19,41 +18,53 @@ public class ColorfulBouncingCircle extends ColorfulCircle {
 	}
 	
 	public void tick() {
-		double centerX = super.getCenterX();
-		double centerY = super.getCenterY();
-		double newCenterX = this.xVelocity + centerX;
-		double newCenterY = this.yVelocity + centerY;
-		if((centerX >= 0 && centerX <= width) && centerY >= 0 && centerY <= height) {
-			super.setCenterCoordinates(newCenterX, newCenterY);
-			newCenterX = this.xVelocity + super.getCenterX();
-			newCenterY = this.yVelocity + super.getCenterY();
-		}
-		if(newCenterX < 0 || newCenterX > width || newCenterY < 0 || newCenterY > height ) {
+		//new Circle c1 = (super(getRadius(), getCenterX(), getCenterY(), Color co))
+		double newCenterX = this.xVelocity + this.getCenterX();
+		double newCenterY = this.yVelocity + this.getCenterY();
+		if((this.getCenterX() >= 0 && this.getCenterX() <= width) && this.getCenterY() >= 0 && this.getCenterY() <= height) {
+			newCenterX = this.xVelocity + this.getCenterX();
+			newCenterY = this.yVelocity + this.getCenterY();
+			if(newCenterX < 0 || newCenterX > width || newCenterY < 0 || newCenterY > height ) {
 				if(newCenterX > width && newCenterY > height) {
-					this.xVelocity = xVelocity * -1;
-					this.yVelocity = yVelocity * -1;
+					this.xVelocity = this.xVelocity * -1;
+					this.yVelocity = this.yVelocity * -1;
 				} else if(newCenterX < 0 && newCenterY < 0) {
-					this.xVelocity = xVelocity * -1;
-					this.yVelocity = yVelocity * -1;
+					this.xVelocity = this.xVelocity * -1;
+					this.yVelocity = this.yVelocity * -1;
 				} else if(newCenterX > width && newCenterY > height) {
-					this.xVelocity = xVelocity * -1;
-					this.yVelocity = yVelocity * -1;
+					this.xVelocity = this.xVelocity * -1;
+					this.yVelocity = this.yVelocity * -1;
 				} else if(newCenterX < 0 || newCenterX > width) {
-					this.xVelocity = xVelocity * -1;
+					this.xVelocity = this.xVelocity * -1;
 				} else {
-					this.yVelocity = yVelocity * -1;
+					this.yVelocity = this.yVelocity * -1;
 				}
+			} else {
+				this.setCenterCoordinates(newCenterX, newCenterY);
 			}
+		}
+		
 		}
 	
 	@Override
 	public boolean overlaps(Circle c) {
-		
-		if(this.overlaps(c)) {
-			//alter velocity
+		if(super.overlaps(c)) {
+			double centerX = this.getCenterX();
+			double centerY = this.getCenterY();
+			if(c.getCenterX() > centerX ) {
+				this.xVelocity = this.xVelocity * -1;
+			}
+			if(c.getCenterY() < centerY) {
+				this.yVelocity = this.yVelocity * -1;
+			}
+			if(c.getCenterX()< centerX) {
+				this.xVelocity = this.xVelocity * -1;
+			}
+			if(c.getCenterY() < centerY) {
+				this.yVelocity = this.yVelocity * -1;
+			}
 		}
 		
+		return super.overlaps(c);
 	}
-	
-
 }
