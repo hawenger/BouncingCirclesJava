@@ -19,11 +19,10 @@ public class ColorfulBouncingCircle extends ColorfulCircle {
 	
 	public void tick() {
 		//new Circle c1 = (super(getRadius(), getCenterX(), getCenterY(), Color co))
-		double newCenterX = this.xVelocity + this.getCenterX();
-		double newCenterY = this.yVelocity + this.getCenterY();
-		if((this.getCenterX() >= 0 && this.getCenterX() <= width) && this.getCenterY() >= 0 && this.getCenterY() <= height) {
-			newCenterX = this.xVelocity + this.getCenterX();
-			newCenterY = this.yVelocity + this.getCenterY();
+
+		if((super.getCenterX() >= 0 && super.getCenterX() <= width) && super.getCenterY() >= 0 && super.getCenterY() <= height) {
+			double newCenterX = this.xVelocity + super.getCenterX();
+			double newCenterY = this.yVelocity + super.getCenterY();
 			if(newCenterX < 0 || newCenterX > width || newCenterY < 0 || newCenterY > height ) {
 				if(newCenterX > width && newCenterY > height) {
 					this.xVelocity = this.xVelocity * -1;
@@ -31,7 +30,10 @@ public class ColorfulBouncingCircle extends ColorfulCircle {
 				} else if(newCenterX < 0 && newCenterY < 0) {
 					this.xVelocity = this.xVelocity * -1;
 					this.yVelocity = this.yVelocity * -1;
-				} else if(newCenterX > width && newCenterY > height) {
+				} else if(newCenterX > width && newCenterY < 0) {
+					this.xVelocity = this.xVelocity * -1;
+					this.yVelocity = this.yVelocity * -1;
+				} else if(newCenterX < 0 && newCenterY > height) {
 					this.xVelocity = this.xVelocity * -1;
 					this.yVelocity = this.yVelocity * -1;
 				} else if(newCenterX < 0 || newCenterX > width) {
@@ -49,18 +51,17 @@ public class ColorfulBouncingCircle extends ColorfulCircle {
 	@Override
 	public boolean overlaps(Circle c) {
 		if(super.overlaps(c)) {
-			double centerX = this.getCenterX();
-			double centerY = this.getCenterY();
-			if(c.getCenterX() > centerX ) {
+
+			if(c.getCenterX() > super.getCenterX()) {
 				this.xVelocity = this.xVelocity * -1;
 			}
-			if(c.getCenterY() < centerY) {
+			if(c.getCenterY() < super.getCenterY()) {
 				this.yVelocity = this.yVelocity * -1;
 			}
-			if(c.getCenterX()< centerX) {
+			if(c.getCenterX() < super.getCenterX()) {
 				this.xVelocity = this.xVelocity * -1;
 			}
-			if(c.getCenterY() < centerY) {
+			if(c.getCenterY() > super.getCenterY()) {
 				this.yVelocity = this.yVelocity * -1;
 			}
 		}
